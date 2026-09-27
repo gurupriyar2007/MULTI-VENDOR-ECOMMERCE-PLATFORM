@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body style="display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; padding: 20px 0;">
+
+  <div class="container" style="max-width: 480px; width: 100%;">
+    <div style="text-align: center; margin-bottom: 28px;">
+      <a href="index.html" class="brand" style="justify-content: center; margin-bottom: 12px;">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <p>Log in to access your custom role dashboard</p>
+    </div>
+
+    <!-- Quick Demo Logins Banner -->
+    <div class="card" style="margin-bottom: 20px; padding: 18px; border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.08);">
+      <div style="font-size: 0.82rem; font-weight: 700; color: #818cf8; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+        ⚡ Instant 1-Click Demo Accounts:
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('customer')">👤 Customer</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('vendor')">🏪 Vendor</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('admin')">🛡️ Admin</button>
+      </div>
+    </div>
+
+    <!-- Login Form Card -->
+    <div class="card" style="box-shadow: 0 20px 45px rgba(0,0,0,0.5);">
+      <h2 style="margin-bottom: 6px; font-size: 1.5rem;">Welcome Back</h2>
+      <p style="font-size: 0.9rem; margin-bottom: 24px;">Enter your credentials below to continue.</p>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="name@domain.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 6px;">
+          Sign In to Account
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); font-size: 0.9rem;">
+        <span style="color: var(--text-muted);">New to softmulti_pro?</span>
+        <a href="register.html" style="color: var(--accent-cyan); font-weight: 700; margin-left: 6px;">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+</body>
+</html>

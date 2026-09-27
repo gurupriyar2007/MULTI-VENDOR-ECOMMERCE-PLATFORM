@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Product Catalog | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="vendor-dashboard.html" class="nav-link">Vendor Hub</a></li>
+        <li><a href="vendor-products.html" class="nav-link active">Manage Catalog</a></li>
+        <li><a href="products.html" class="nav-link">Public Store</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <main class="container section" style="padding-top: 40px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <span class="badge badge-primary" style="margin-bottom: 8px;">INVENTORY & LISTINGS</span>
+        <h1>Product Catalog Management</h1>
+        <p>List new merchandise, track warehouse stock levels, or retire outdated items.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="openAddModal()">➕ Add New Product</button>
+      </div>
+    </div>
+
+    <!-- Product Inventory Table -->
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock Level</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="vendorProductTable">
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 30px;">Loading your inventory...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Product Modal -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 style="color: #fff;">List New Product in Store</h3>
+        <button class="toast-close" onclick="closeAddModal()">✕</button>
+      </div>
+      <form id="newProductForm">
+        <div class="form-group">
+          <label for="prodName">Product Title</label>
+          <input type="text" id="prodName" class="form-control" required placeholder="e.g. Organic Pure Honey 500g">
+        </div>
+
+        <div class="form-group">
+          <label for="prodCategory">Market Category</label>
+          <select id="prodCategory" class="form-control" required>
+            <option value="1">1. Agriculture & Farm Produce</option>
+            <option value="2">2. Handmade Crafts & Artisan Goods</option>
+            <option value="3">3. Books & Academic Publications</option>
+            <option value="4">4. Health, Wellness & Pharmacy</option>
+            <option value="5">5. Other Specialized Products</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label for="prodPrice">Price (₹)</label>
+            <input type="number" id="prodPrice" class="form-control" step="0.01" min="1" required placeholder="350.00">
+          </div>
+          <div class="form-group">
+            <label for="prodStock">Available Stock</label>
+            <input type="number" id="prodStock" class="form-control" min="0" required placeholder="25">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="prodImage">Image URL (Unsplash or direct image)</label>
+          <input type="url" id="prodImage" class="form-control" placeholder="https://images.unsplash.com/photo-..." value="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop">
+        </div>
+
+        <div class="form-group">
+          <label for="prodDesc">Product Description</label>
+          <textarea id="prodDesc" class="form-control" rows="3" placeholder="Describe quality, ingredients, materials, or origin..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+          <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
+          <button type="submit" id="saveProdBtn" class="btn btn-primary">Publish Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/api.js"></script>
+  <script>
+    async function loadCatalog() {
+      if (!requireAuth(['vendor'])) return;
+      const table = document.getElementById('vendorProductTable');
+      
+      try {
+        const data = await api('/products');
+        const user = getSessionUser();
+        // Filter by this vendor if id is present, or show items
+        let items = data.products || [];
+        if (user && user.id) {
+          items = items.filter(p => p.vendor_id === user.id);
+        }
+
+        if (items.length === 0) {
+          table.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 40px;">
+                <p>No products listed yet.</p>
+                <button class="btn btn-primary btn-sm" onclick="openAddModal()" style="margin-top: 10px;">Create First Listing</button>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        table.innerHTML = items.map(p => `
+          <tr>
+            <td>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <img src="${p.image_url || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100'}" style="width:48px; height:48px; border-radius:var(--radius-sm); object-fit:cover;">
+                <div>
+                  <strong style="color:#fff;">${p.name}</strong>
+                  <div style="font-size:0.8rem; color:var(--text-dim);">${p.description ? p.description.substring(0, 40) + '...' : ''}</div>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-primary">${p.category_name || 'Category'}</span></td>
+            <td><strong>₹${Number(p.price).toFixed(2)}</strong></td>
+            <td>
+              ${p.stock > 10 
+                ? `<span class="badge badge-emerald">In Stock (${p.stock})</span>` 
+                : (p.stock > 0 
+                  ? `<span class="badge badge-amber">Low Stock (${p.stock})</span>` 
+                  : `<span class="badge badge-rose">Out of Stock</span>`)}
+            </td>
+            <td><span class="badge badge-emerald">ACTIVE</span></td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick="deleteProductItem(${p.id}, '${p.name.replace(/'/g, "\\'")}')">
+                🗑️ Delete
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        table.innerHTML = `<tr><td colspan="6" style="color:var(--accent-rose);">${err.message}</td></tr>`;
+      }
+    }
+
+    async function deleteProductItem(id, name) {
+      if (!confirm(`Are you sure you want to remove "${name}" from your catalog?`)) return;
+      try {
+        await api(`/products/${id}`, { method: 'DELETE' });
+        showToast(`Product "${name}" deleted`, 'info');
+        loadCatalog();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    function openAddModal() {
+      document.getElementById('addModal').classList.add('active');
+    }
+
+    function closeAddModal() {
+      document.getElementById('addModal').classList.remove('active');
+    }
+
+    document.getElementById('newProductForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('saveProdBtn');
+      btn.disabled = true;
+      btn.textContent = 'Publishing...';
+
+      try {
+        await api('/products', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: document.getElementById('prodName').value.trim(),
+            category_id: Number(document.getElementById('prodCategory').value),
+            price: Number(document.getElementById('prodPrice').value),
+            stock: Number(document.getElementById('prodStock').value),
+            image_url: document.getElementById('prodImage').value.trim(),
+            description: document.getElementById('prodDesc').value.trim()
+          })
+        });
+
+        showToast('Product published to marketplace!', 'success');
+        closeAddModal();
+        e.target.reset();
+        loadCatalog();
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Publish Product';
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadCatalog);
+  </script>
+</body>
+</html>

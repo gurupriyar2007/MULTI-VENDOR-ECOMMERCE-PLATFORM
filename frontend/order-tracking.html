@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Order Tracking | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="products.html" class="nav-link">Marketplace</a></li>
+        <li><a href="customer-dashboard.html" class="nav-link">Customer Dashboard</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <main class="container section" style="padding-top: 40px; max-width: 900px;">
+    <div style="margin-bottom: 30px;">
+      <span class="badge badge-emerald" style="margin-bottom: 8px;">LIVE DISPATCH TRACKING</span>
+      <h1>Order Fulfillment Progress</h1>
+      <p>Real-time milestone updates as your order transitions from seller confirmation to doorstep delivery.</p>
+    </div>
+
+    <!-- Tracking Container -->
+    <div id="trackingContainer">
+      <div style="text-align: center; padding: 50px;">
+        <div style="font-size: 2.5rem; margin-bottom: 12px;">⏳</div>
+        <p>Loading order milestone data...</p>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 14px; margin-top: 24px;">
+      <a href="customer-dashboard.html" class="btn btn-secondary">← Back to My Orders</a>
+      <a href="products.html" class="btn btn-primary">Continue Shopping</a>
+    </div>
+  </main>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadOrderTracking();
+    });
+  </script>
+</body>
+</html>

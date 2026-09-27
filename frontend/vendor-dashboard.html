@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Dashboard | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="vendor-dashboard.html" class="nav-link active">Vendor Hub</a></li>
+        <li><a href="vendor-products.html" class="nav-link">Product Catalog</a></li>
+        <li><a href="products.html" class="nav-link">Public Store</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <main class="container section" style="padding-top: 40px;">
+    <!-- Welcome Header -->
+    <div class="card" style="margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div class="badge badge-emerald" style="margin-bottom: 8px;">VERIFIED SELLER PORTAL</div>
+        <h1>Welcome, <span data-user-name class="text-gradient">Vendor</span></h1>
+        <p style="margin-top: 4px;">Manage your multi-vendor store inventory, customer orders, and status dispatches.</p>
+      </div>
+      <div>
+        <a href="vendor-products.html" class="btn btn-primary">➕ Manage & Add Products</a>
+      </div>
+    </div>
+
+    <!-- Vendor KPI Stat Cards -->
+    <div class="grid grid-cols-3" style="margin-bottom: 30px;">
+      <div class="stat-card">
+        <div class="stat-icon" style="color:var(--accent-emerald); background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.25);">
+          💵
+        </div>
+        <div>
+          <div class="stat-val" id="vendorSales">₹0.00</div>
+          <div class="stat-label">Total Realized Sales</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div>
+          <div class="stat-val" id="vendorOrderCount">0</div>
+          <div class="stat-label">Orders Received</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color:var(--accent-cyan); background:rgba(6,182,212,0.12); border-color:rgba(6,182,212,0.25);">
+          🏷️
+        </div>
+        <div>
+          <div class="stat-val" id="vendorProductCount">0</div>
+          <div class="stat-label">Active Store Items</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Incoming Orders & Dispatch Controls -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 1.4rem;">Incoming Orders & Dispatch Fulfillment</h2>
+          <p style="font-size: 0.9rem;">Change status as you pack and ship to notify the customer in real-time.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Total Amount</th>
+              <th>Current Status</th>
+              <th>Dispatch Action</th>
+            </tr>
+          </thead>
+          <tbody id="vendorOrdersTable">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 30px;">Loading customer orders...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadVendorDashboard();
+    });
+  </script>
+</body>
+</html>

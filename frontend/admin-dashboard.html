@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Governance Hub | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="admin-dashboard.html" class="nav-link active">Admin Hub</a></li>
+        <li><a href="products.html" class="nav-link">Storefront</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <main class="container section" style="padding-top: 40px;">
+    <!-- Welcome Header -->
+    <div class="card" style="margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div class="badge badge-primary" style="margin-bottom: 8px;">SYSTEM GOVERNANCE</div>
+        <h1>Platform Administration</h1>
+        <p style="margin-top: 4px;">Supervise multi-vendor registrations, platform transactions, and ecosystem metrics.</p>
+      </div>
+      <div>
+        <span class="badge badge-emerald" style="padding: 8px 16px;">● Ecosystem Operational</span>
+      </div>
+    </div>
+
+    <!-- Platform KPI Metric Cards -->
+    <div class="grid grid-cols-4" style="margin-bottom: 30px;">
+      <div class="stat-card">
+        <div class="stat-icon" style="color:var(--accent-primary);">👥</div>
+        <div>
+          <div class="stat-val" id="adminUsers">0</div>
+          <div class="stat-label">Registered Users</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color:var(--accent-cyan); background:rgba(6,182,212,0.12); border-color:rgba(6,182,212,0.25);">🏷️</div>
+        <div>
+          <div class="stat-val" id="adminProducts">0</div>
+          <div class="stat-label">Listed Products</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color:var(--accent-amber); background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.25);">📦</div>
+        <div>
+          <div class="stat-val" id="adminOrders">0</div>
+          <div class="stat-label">Platform Orders</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="color:var(--accent-emerald); background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.25);">💰</div>
+        <div>
+          <div class="stat-val" id="adminRevenue">₹0.00</div>
+          <div class="stat-label">Gross Revenue</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Vendor Approvals -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 1.4rem;">Pending Vendor Approvals</h2>
+          <p style="font-size: 0.9rem;">Review and authorize merchant onboarding requests to maintain marketplace standard.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th>Applicant Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Governance Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminVendorsTable">
+            <tr>
+              <td colspan="4" style="text-align: center; padding: 30px;">Checking pending approvals...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAdminDashboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace Catalog | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .cat-pills {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 24px;
+    }
+    .cat-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    .cat-pill:hover, .cat-pill.active {
+      background: var(--accent-gradient);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+    .filter-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="products.html" class="nav-link active">Marketplace</a></li>
+        <li><a href="customer-dashboard.html" class="nav-link">Dashboard</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <!-- Marketplace Header -->
+  <main class="container section" style="padding-top: 40px;">
+    <div style="margin-bottom: 30px;">
+      <span class="badge badge-primary" style="margin-bottom: 8px;">ALL VENDORS</span>
+      <h1>Marketplace Catalog</h1>
+      <p>Discover unique, authentic offerings from local artisans, farmers, bookshops, and pharmacies.</p>
+    </div>
+
+    <!-- Category Selector Pills -->
+    <div class="cat-pills">
+      <button class="cat-pill active" onclick="setCategory('all', this)">🌐 All Items</button>
+      <button class="cat-pill" onclick="setCategory('agriculture', this)">🌾 Agriculture</button>
+      <button class="cat-pill" onclick="setCategory('handmade crafts', this)">🎨 Handmade Crafts</button>
+      <button class="cat-pill" onclick="setCategory('books', this)">📚 Books</button>
+      <button class="cat-pill" onclick="setCategory('pharmacy', this)">💊 Pharmacy</button>
+      <button class="cat-pill" onclick="setCategory('other', this)">✨ Other</button>
+    </div>
+
+    <!-- Live Search & Sorting Controls -->
+    <div class="filter-bar">
+      <div style="flex: 1; min-width: 260px;">
+        <input 
+          type="text" 
+          id="search" 
+          class="form-control" 
+          placeholder="🔍 Search by product name, description or vendor..." 
+          oninput="handleSearch(this.value)"
+        >
+      </div>
+      <div style="width: 220px;">
+        <select id="sortSelect" class="form-control" onchange="handleSort(this.value)">
+          <option value="default">Sort by: Featured</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="name">Product Name (A-Z)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-auto" id="productGrid">
+      <!-- Dynamic cards rendered by products.js -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border:none;">
+      <div>&copy; 2026 softmulti_pro &mdash; Multi Vendor Digital E-Commerce Platform.</div>
+      <div style="display:flex; gap:16px;">
+        <a href="index.html">Home</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Sign In</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchProducts();
+    });
+  </script>
+</body>
+</html>

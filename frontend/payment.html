@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout & Payment | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .pay-opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: var(--transition);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .pay-opt:hover, .pay-opt.selected {
+      border-color: var(--accent-primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <div style="font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+        🔒 256-Bit SSL Encrypted Checkout
+      </div>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <main class="container section" style="padding-top: 40px; max-width: 900px;">
+    <div style="margin-bottom: 28px;">
+      <span class="badge badge-emerald" style="margin-bottom: 8px;">FINAL STEP</span>
+      <h1>Delivery & Payment Gateway</h1>
+      <p>Confirm your destination address and choose your preferred mock settlement gateway.</p>
+    </div>
+
+    <form id="checkoutForm">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+        
+        <!-- Shipping Address Details -->
+        <div class="card">
+          <h3 style="margin-bottom: 18px; color: #fff;">1. Shipping Address</h3>
+          
+          <div class="form-group">
+            <label for="fullName">Recipient Full Name</label>
+            <input type="text" id="fullName" class="form-control" required placeholder="e.g. John Doe">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Contact Phone Number</label>
+            <input type="tel" id="phone" class="form-control" required placeholder="+91 98765 43210">
+          </div>
+
+          <div class="form-group">
+            <label for="address">Street Address / Landmark</label>
+            <textarea id="address" class="form-control" rows="3" required placeholder="Apartment / House No, Street, Landmark"></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" class="form-control" required placeholder="Mumbai">
+            </div>
+            <div class="form-group">
+              <label for="pincode">Postal Code</label>
+              <input type="text" id="pincode" class="form-control" required placeholder="400001">
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Selection -->
+        <div class="card">
+          <h3 style="margin-bottom: 18px; color: #fff;">2. Payment Method</h3>
+
+          <div class="pay-opt selected" onclick="selectMethod(this, 'card-demo')">
+            <input type="radio" name="payMethod" value="card-demo" checked>
+            <div>
+              <div style="font-weight: 700; color: #fff;">💳 Credit / Debit Card</div>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Visa, MasterCard, RuPay</div>
+            </div>
+          </div>
+
+          <div class="pay-opt" onclick="selectMethod(this, 'upi-demo')">
+            <input type="radio" name="payMethod" value="upi-demo">
+            <div>
+              <div style="font-weight: 700; color: #fff;">📱 Instant UPI / QR</div>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">GPay, PhonePe, Paytm</div>
+            </div>
+          </div>
+
+          <div class="pay-opt" onclick="selectMethod(this, 'netbanking-demo')">
+            <input type="radio" name="payMethod" value="netbanking-demo">
+            <div>
+              <div style="font-weight: 700; color: #fff;">🏦 Net Banking</div>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">HDFC, ICICI, SBI, Axis</div>
+            </div>
+          </div>
+
+          <div class="pay-opt" onclick="selectMethod(this, 'cod')">
+            <input type="radio" name="payMethod" value="cod">
+            <div>
+              <div style="font-weight: 700; color: #fff;">💵 Cash on Delivery (COD)</div>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Pay upon order arrival</div>
+            </div>
+          </div>
+
+          <!-- Checkout Total Banner -->
+          <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="color: var(--text-muted);">Amount Payable:</span>
+              <span style="font-size: 1.4rem; font-weight: 800; color: var(--accent-cyan);" id="orderTotalText">Calculating...</span>
+            </div>
+            <button type="submit" id="payBtn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem;">
+              Complete & Pay Now 🔒
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <script src="assets/js/api.js"></script>
+  <script>
+    let checkoutData = null;
+    let selectedMethodValue = 'card-demo';
+
+    function selectMethod(el, method) {
+      document.querySelectorAll('.pay-opt').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+      el.querySelector('input[type="radio"]').checked = true;
+      selectedMethodValue = method;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireAuth(['customer'])) return;
+      const user = getSessionUser();
+      if (user) {
+        document.getElementById('fullName').value = user.name || '';
+      }
+
+      const raw = localStorage.getItem('softmulti_checkout');
+      if (!raw) {
+        // Retrieve fresh total from cart
+        try {
+          const cart = await api('/cart');
+          if (!cart.items || cart.items.length === 0) {
+            showToast('Your cart is empty', 'error');
+            setTimeout(() => location.href = 'products.html', 1000);
+            return;
+          }
+          let sum = cart.items.reduce((acc, it) => acc + (Number(it.price) * it.quantity), 0);
+          const grand = sum + (sum > 500 ? 0 : 49) + (sum * 0.05);
+          document.getElementById('orderTotalText').textContent = `₹${grand.toFixed(2)}`;
+        } catch (e) {
+          showToast('Failed to calculate cart total', 'error');
+        }
+      } else {
+        checkoutData = JSON.parse(raw);
+        document.getElementById('orderTotalText').textContent = `₹${Number(checkoutData.total).toFixed(2)}`;
+      }
+    });
+
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payBtn = document.getElementById('payBtn');
+      payBtn.disabled = true;
+      payBtn.textContent = 'Processing Transaction... ⏳';
+
+      try {
+        // Step 1: Place Order
+        const orderRes = await api('/orders', { method: 'POST' });
+        const orderId = orderRes.orderId;
+
+        // Step 2: Pay for Order
+        const payRes = await api('/payments/pay', {
+          method: 'POST',
+          body: JSON.stringify({
+            order_id: orderId,
+            method: selectedMethodValue
+          })
+        });
+
+        // Clean checkout state
+        localStorage.removeItem('softmulti_checkout');
+
+        showToast(`Payment successful! Transaction: ${payRes.transactionId}`, 'success', 'Order Confirmed');
+
+        setTimeout(() => {
+          window.location.href = `order-tracking.html?orderId=${orderId}`;
+        }, 1200);
+
+      } catch (err) {
+        showToast(err.message, 'error', 'Payment Failed');
+        payBtn.disabled = false;
+        payBtn.textContent = 'Complete & Pay Now 🔒';
+      }
+    });
+  </script>
+</body>
+</html>

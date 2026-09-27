@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard | softmulti_pro</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>softmulti<span>_pro</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="products.html" class="nav-link">Marketplace</a></li>
+        <li><a href="cart.html" class="nav-link">Cart</a></li>
+        <li><a href="customer-dashboard.html" class="nav-link active">My Orders</a></li>
+      </ul>
+      <div class="nav-actions" id="navActions"></div>
+    </div>
+  </header>
+
+  <main class="container section" style="padding-top: 40px;">
+    <!-- Welcome Header -->
+    <div class="card" style="margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div class="badge badge-primary" style="margin-bottom: 8px;">CUSTOMER ACCOUNT</div>
+        <h1>Hello, <span data-user-name class="text-gradient">Customer</span></h1>
+        <p style="margin-top: 4px;">Logged in as: <strong data-user-email style="color: #fff;">email@domain.com</strong></p>
+      </div>
+      <div>
+        <a href="products.html" class="btn btn-primary">🛍️ Browse Catalog</a>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-3" style="margin-bottom: 30px;">
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div>
+          <div class="stat-val" id="statTotalSpent">₹0.00</div>
+          <div class="stat-label">Total Spent</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div>
+          <div class="stat-val" id="statActiveOrders">0</div>
+          <div class="stat-label">Active Orders</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div>
+          <div class="stat-val" id="statCompletedOrders">0</div>
+          <div class="stat-label">Delivered Orders</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+          <h2 style="font-size: 1.4rem;">Order History & Tracking</h2>
+          <p style="font-size: 0.9rem;">View the current fulfillment status of your purchases across all vendors.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table-modern">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Total Amount</th>
+              <th>Order Status</th>
+              <th>Payment</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="customerOrders">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 30px;">Loading your orders...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCustomerDashboard();
+    });
+  </script>
+</body>
+</html>
