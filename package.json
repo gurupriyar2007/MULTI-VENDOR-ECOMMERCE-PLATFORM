@@ -1,0 +1,20 @@
+{
+  "name": "softmulti_pro",
+  "version": "1.0.0",
+  "description": "Modern Multi-Vendor Digital E-Commerce Platform",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "cd backend && npm install",
+    "dev": "node backend/server.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "multi-vendor",
+    "express",
+    "mysql",
+    "render"
+  ],
+  "author": "gurupriya200701",
+  "license": "ISC"
+}

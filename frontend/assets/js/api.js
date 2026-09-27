@@ -1,4 +1,7 @@
-const API_BASE = 'http://localhost:5000/api';
+// Auto-detect environment: uses relative '/api' on cloud/Render, or localhost:5000 when running on port 5500
+const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port === '5500'
+  ? 'http://localhost:5000/api'
+  : '/api';
 
 /**
  * Universal Toast Notification System
